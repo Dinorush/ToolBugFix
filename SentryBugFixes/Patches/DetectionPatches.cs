@@ -2,7 +2,6 @@
 using Enemies;
 using GameData;
 using HarmonyLib;
-using SentryBugFixes.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
