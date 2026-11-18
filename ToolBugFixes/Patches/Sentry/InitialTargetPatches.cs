@@ -1,7 +1,7 @@
 ﻿using AK;
 using HarmonyLib;
 
-namespace SentryBugFixes.Patches
+namespace ToolBugFixes.Patches.Sentry
 {
     [HarmonyPatch]
     internal static class InitialTargetPatches

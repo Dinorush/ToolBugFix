@@ -2,13 +2,13 @@
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 
-namespace SentryBugFixes
+namespace ToolBugFixes
 {
     [BepInPlugin("Dinorush." + MODNAME, MODNAME, "1.0.0")]
     [BepInDependency("dev.gtfomodding.gtfo-api", BepInDependency.DependencyFlags.HardDependency)]
     internal sealed class EntryPoint : BasePlugin
     {
-        public const string MODNAME = "SentryBugFixes";
+        public const string MODNAME = "ToolBugFixes";
 
         public override void Load()
         {

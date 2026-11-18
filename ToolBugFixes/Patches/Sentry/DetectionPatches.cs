@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Il2Arrays = Il2CppInterop.Runtime.InteropTypes.Arrays;
 
-namespace SentryBugFixes.Patches
+namespace ToolBugFixes.Patches.Sentry
 {
     [HarmonyPatch]
     internal static class DetectionPatches

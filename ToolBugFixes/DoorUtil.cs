@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-namespace SentryBugFixes
+namespace ToolBugFixes
 {
     public static class DoorUtil
     {
