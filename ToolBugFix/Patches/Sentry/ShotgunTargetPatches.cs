@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace ToolBugFixes.Patches.Sentry
+namespace ToolBugFix.Patches.Sentry
 {
     [HarmonyPatch]
     internal static class ShotgunTargetPatches

@@ -1,6 +1,6 @@
 ﻿using BepInEx.Logging;
 
-namespace ToolBugFixes
+namespace ToolBugFix
 {
     internal static class DinoLogger
     {

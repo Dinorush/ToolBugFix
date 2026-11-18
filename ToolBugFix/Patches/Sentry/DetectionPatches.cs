@@ -4,10 +4,11 @@ using GameData;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using ToolBugFix.Utils;
 using UnityEngine;
 using Il2Arrays = Il2CppInterop.Runtime.InteropTypes.Arrays;
 
-namespace ToolBugFixes.Patches.Sentry
+namespace ToolBugFix.Patches.Sentry
 {
     [HarmonyPatch]
     internal static class DetectionPatches

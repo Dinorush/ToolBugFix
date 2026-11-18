@@ -1,13 +1,15 @@
 ﻿using AIGraph;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-namespace ToolBugFixes
+namespace ToolBugFix.Utils
 {
     public static class DoorUtil
     {
         private const float PortalCheckBuffer = 0.25f;
         private const float MinDotInNode = 0.1f;
+        private static readonly List<AIG_CoursePortal> _portalCache = new();
 
         public static bool TryGetNearbyPortal(Vector3 pos, AIG_CourseNode node, [MaybeNullWhen(false)] out AIG_CoursePortal portal)
         {
@@ -34,6 +36,44 @@ namespace ToolBugFixes
             return portal != null;
         }
 
+        public static bool TryGetCrossPortal(Vector3 pos, AIG_CourseNode nodeA, AIG_CourseNode nodeB, [MaybeNullWhen(false)] out AIG_CoursePortal portal)
+        {
+            var nodeBID = nodeB.NodeID;
+            foreach (var nodePortal in nodeA.m_portals)
+            {
+                if (nodePortal.GetOppositeNode(nodeA).NodeID == nodeBID)
+                    _portalCache.Add(nodePortal);
+            }
+
+            if (_portalCache.Count == 0)
+            {
+                portal = null;
+                return false;
+            }
+
+            if (_portalCache.Count == 1)
+            {
+                portal = _portalCache[0];
+                _portalCache.Clear();
+                return true;
+            }
+
+            float bestDist = float.MaxValue;
+            portal = null!;
+            foreach (var nodePortal in _portalCache)
+            {
+                var diff = pos - nodePortal.Position;
+                float distSqr = diff.sqrMagnitude;
+                if (distSqr < bestDist)
+                {
+                    portal = nodePortal;
+                    bestDist = distSqr;
+                }
+            }
+            _portalCache.Clear();
+            return true;
+        }
+
         public static bool IsOnSameSide(Vector3 pos, AIG_CourseNode checkNode, AIG_CoursePortal portal)
         {
             var cPortal = portal.m_cullPortal;
@@ -51,6 +91,24 @@ namespace ToolBugFixes
                     return checkNode;
             }
             return node;
+        }
+
+        public static bool CanTouchNode(Vector3 pos, AIG_CourseNode node, AIG_CourseNode checkNode)
+        {
+            if (node.NodeID == checkNode.NodeID) return true;
+
+            if (!TryGetCrossPortal(pos, node, checkNode, out var portal)) return false;
+
+            if (portal.IsTraversable) return true;
+
+            return IsOnSameSide(pos, checkNode, portal);
+        }
+
+        public static bool CanTouchNode(Vector3 pos, AIG_CourseNode checkNode)
+        {
+            if (!TryGetNearbyPortal(pos, checkNode, out var portal) || portal.IsTraversable) return true;
+
+            return IsOnSameSide(pos, checkNode, portal);
         }
     }
 }
